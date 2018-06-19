@@ -11,7 +11,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import java.util.*
 
-// Data object representing one ToDo list item
+// One To-Do list item
 data class ToDoItem(val subject: String)
 
 // TODO implement database storage
