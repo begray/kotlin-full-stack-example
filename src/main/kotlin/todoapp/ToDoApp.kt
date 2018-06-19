@@ -1,24 +1,26 @@
 package todoapp
 
 import io.ktor.application.*
+import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 
-fun main(args: Array<String>) {
-    val server = embeddedServer(Netty, port = 8080) {
-        routing {
-            get("/") {
-                call.respondText("Hello World!", ContentType.Text.Plain)
-            }
-            get("/demo") {
-                call.respondText("HELLO WORLD!")
-            }
+data class ToDoItem(val text: String)
+
+fun Application.main() {
+    install(DefaultHeaders)
+    install(CallLogging)
+    install(Routing) {
+        get("/") {
+            call.respondText("", ContentType.Text.Plain)
+        }
+        get("/demo") {
+            call.respond(
+                    ToDoItem("hello world!")
+            )
         }
     }
-    server.start(wait = true)
 }
-
-
