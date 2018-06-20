@@ -14,7 +14,7 @@ plugins {
     id 'java'
 }
 
-group 'com.jetbrains.todoapp'
+group 'todoapp'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'kotlin'
@@ -27,7 +27,12 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     jcenter()
-    maven { url "https://dl.bintray.com/kotlin/ktor" }
+    maven {
+        url "https://dl.bintray.com/kotlin/ktor"
+    }
+    maven {
+        url "https://dl.bintray.com/kotlin/exposed"
+    }
 }
 
 dependencies {
@@ -35,6 +40,9 @@ dependencies {
 
     compile "io.ktor:ktor-server-netty:$ktor_version"
     compile "io.ktor:ktor-jackson:$ktor_version"
+
+    compile 'org.jetbrains.exposed:exposed:0.10.3'
+    compile 'com.h2database:h2:1.4.197'
 
     compile "ch.qos.logback:logback-classic:1.2.1"
 
