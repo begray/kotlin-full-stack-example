@@ -1,2 +1,4 @@
-rootProject.name = 'todoapp-backend'
+rootProject.name = 'todoapp'
+
+include 'backend'
 
