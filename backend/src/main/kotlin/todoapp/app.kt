@@ -5,6 +5,7 @@ import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.content.defaultResource
+import io.ktor.content.files
 import io.ktor.content.static
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
@@ -33,6 +34,9 @@ fun Application.main() {
     routing {
         static("/") {
             defaultResource("index.html")
+        }
+        static("frontend") {
+            files("frontend")
         }
         route("/todos") {
             get {
