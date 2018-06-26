@@ -1,11 +1,18 @@
 package todoapp
 
-import kotlinx.coroutines.experimental.*
-import org.w3c.fetch.*
-import kotlin.browser.*
-import kotlin.js.*
+import kotlinx.coroutines.experimental.await
+import org.w3c.fetch.RequestCredentials
+import org.w3c.fetch.RequestInit
+import kotlin.browser.window
 import kotlin.js.JSON.stringify
+import kotlin.js.json
 
+/**
+ * Dumb REST API client
+ *
+ * TODO consider using some library to do REST API communication to avoid hand written to/from JSON serialization
+ * TODO does multiplatform project provides REST API client generated from backend interfaces?
+ */
 
 suspend fun postToDo(subject: String): Unit =
         postAndParseResult(

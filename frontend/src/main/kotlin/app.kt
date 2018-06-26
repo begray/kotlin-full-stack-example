@@ -1,11 +1,12 @@
 package todoapp
 
-import kotlinx.html.*
-import kotlinx.html.js.*
-import org.w3c.dom.*
+import kotlinx.coroutines.experimental.async
+import kotlinx.html.InputType
+import kotlinx.html.js.onChangeFunction
+import kotlinx.html.js.onClickFunction
+import org.w3c.dom.HTMLInputElement
 import react.*
 import react.dom.*
-import kotlinx.coroutines.experimental.*
 
 interface TodoProps : RProps
 
@@ -15,6 +16,9 @@ interface TodoState : RState {
     var error: String?
 }
 
+/**
+ * React component to display a list of ToDos and add new ones
+ */
 class Todo(props: TodoProps) : RComponent<TodoProps, TodoState>(props) {
     override fun TodoState.init(props: TodoProps) {
         items = listOf()
@@ -113,12 +117,3 @@ class Todo(props: TodoProps) : RComponent<TodoProps, TodoState>(props) {
 }
 
 fun RBuilder.todo() = child(Todo::class) {}
-
-class App : RComponent<RProps, RState>() {
-    override fun RBuilder.render() {
-        todo()
-    }
-}
-
-fun RBuilder.app() = child(App::class) {}
-

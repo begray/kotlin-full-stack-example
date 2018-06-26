@@ -1,39 +1,26 @@
 package todoapp
 
 import com.fasterxml.jackson.databind.SerializationFeature
-
-import io.ktor.application.*
-import io.ktor.content.default
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.application.install
 import io.ktor.content.defaultResource
 import io.ktor.content.static
-import io.ktor.features.*
-import io.ktor.jackson.*
-import io.ktor.http.*
+import io.ktor.features.CallLogging
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+import io.ktor.http.ContentType
+import io.ktor.jackson.jackson
 import io.ktor.request.receive
-import io.ktor.response.*
-import io.ktor.routing.*
-
-import org.jetbrains.exposed.sql.*
+import io.ktor.response.respond
+import io.ktor.response.respondText
+import io.ktor.routing.get
+import io.ktor.routing.post
+import io.ktor.routing.route
+import io.ktor.routing.routing
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.SchemaUtils.create
-
-//fun initDatabase(): Database {
-//    val db = Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver")
-//    transaction(db) {
-//
-//        create (ToDoItems)
-//
-//        ToDoItem.new {
-//            subject = "my first automatically created todo item"
-//        }
-//
-//        println("Init: ${ToDoItem.all().joinToString {it.subject}}")
-//    }
-//    return db
-//}
 
 fun Application.main() {
-//    val db = initDatabase()
 
     install(ContentNegotiation) {
         jackson {
