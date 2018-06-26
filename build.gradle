@@ -1,0 +1,31 @@
+group = 'todoapp'
+version = '0.0.1-SNAPSHOT'
+
+subprojects { p ->
+    p.buildscript {
+        ext.kotlin_version = '1.2.41'
+
+        repositories {
+            mavenLocal()
+            jcenter()
+            maven { url "http://dl.bintray.com/kotlin/kotlin-eap" }
+        }
+
+        dependencies {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+            classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.31"
+        }
+    }
+}
+
+subprojects {
+    ext.kotlin_version = '1.2.41'
+    ext.ktor_version = '0.9.0'
+
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url "http://dl.bintray.com/kotlin/kotlinx.html" }
+        maven { url "http://dl.bintray.com/kotlin/ktor" }
+    }
+}

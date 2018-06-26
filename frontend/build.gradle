@@ -1,0 +1,80 @@
+ext.html_version = "0.6.6"
+ext.react_version = "16.4.0-pre.32-kotlin-$kotlin_version"
+ext.react_dom_version = "16.4.0-pre.32-kotlin-$kotlin_version"
+ext.react_router_dom_version = "4.2.2-pre.32-kotlin-$kotlin_version"
+ext.extensions_version = "1.0.1-pre.32-kotlin-$kotlin_version"
+ext.coroutines_version = "0.23.3"
+
+apply plugin: 'kotlin2js'
+apply plugin: 'org.jetbrains.kotlin.frontend'
+
+repositories {
+    mavenCentral()
+    jcenter()
+
+    maven { url "http://dl.bintray.com/kotlinx/kotlinx" }
+    maven { url "https://kotlin.bintray.com/kotlinx/" }
+    maven { url "http://dl.bintray.com/kotlin/kotlin-js-wrappers" }
+}
+
+dependencies {
+    compile("org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version")
+    compile("org.jetbrains.kotlinx:kotlinx-html-js:$html_version")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version")
+    compile("org.jetbrains:kotlin-react:$react_version")
+    compile("org.jetbrains:kotlin-react-dom:$react_dom_version")
+    compile("org.jetbrains:kotlin-react-router-dom:$react_router_dom_version")
+    compile("org.jetbrains:kotlin-extensions:$extensions_version")
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+}
+
+kotlinFrontend {
+    sourceMaps = false
+
+    npm {
+        dependency("react")
+        dependency("react-dom")
+        dependency("react-router")
+        dependency("jquery")
+        dependency("react-markdown")
+
+        devDependency("css-loader")
+        devDependency("style-loader")
+        devDependency("babel-loader")
+        devDependency("babel-core")
+        devDependency("karma")
+    }
+
+    webpackBundle {
+        publicPath = "/frontend/"
+        port = 8080
+        proxyUrl = "http://localhost:9090"
+    }
+}
+
+compileKotlin2Js {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+    kotlinOptions.sourceMap = true
+    kotlinOptions.moduleKind = 'commonjs'
+    kotlinOptions.main = "call"
+}
+
+sourceSets {
+    main {
+        kotlin.srcDirs += "src"
+        resources.srcDirs += "resources"
+        output.resourcesDir = "build/js/resources"
+    }
+    test {
+        kotlin.srcDirs += "test"
+        resources.srcDirs += "testResources"
+    }
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

@@ -3,6 +3,9 @@ package todoapp
 import com.fasterxml.jackson.databind.SerializationFeature
 
 import io.ktor.application.*
+import io.ktor.content.default
+import io.ktor.content.defaultResource
+import io.ktor.content.static
 import io.ktor.features.*
 import io.ktor.jackson.*
 import io.ktor.http.*
@@ -41,6 +44,9 @@ fun Application.main() {
     install(CallLogging)
 
     routing {
+        static("/") {
+            defaultResource("index.html")
+        }
         route("/todos") {
             get {
                 val items = call.let {
@@ -50,8 +56,6 @@ fun Application.main() {
                         }
                     }
                 }
-
-                println("Get: ${items.joinToString {it.subject}}")
 
                 call.respond(items)
             }
@@ -66,7 +70,7 @@ fun Application.main() {
                     }
                 }
 
-                call.respondText("", ContentType.Application.Json)
+                call.respondText("{}", ContentType.Application.Json)
             }
         }
     }
