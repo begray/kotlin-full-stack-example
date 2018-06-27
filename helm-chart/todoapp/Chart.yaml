@@ -1,0 +1,14 @@
+apiVersion: v1
+name: todoapp
+version: 0.0.2
+appVersion: 0.0.1
+description: Sample full stack ToDo application in Kotlin
+keywords:
+- http
+- web
+- application
+- kotlin
+maintainers:
+- name: Vladimir Vinogradov
+  email: begray@gmail.com
+engine: gotpl
