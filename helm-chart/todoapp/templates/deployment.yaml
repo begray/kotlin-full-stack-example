@@ -23,6 +23,14 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: TODOAPP_DB_POSTRES
+              value: {{ template "todoapp.postgresql.fullname" . }}
+            - name: TODOAPP_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "todoapp.postgresql.fullname" . }}
+                  key: postgres-password
           ports:
             - name: http
               containerPort: 9090

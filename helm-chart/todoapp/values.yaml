@@ -6,7 +6,7 @@ replicaCount: 2
 
 image:
   repository: todoapp
-  tag: v0.0.1
+  tag: v0.0.2
   pullPolicy: IfNotPresent
 
 service:
@@ -43,3 +43,17 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+## Kubernetes configuration
+##   minikube: NodePort
+##   ingress: ClusterIP
+##   elsewhere: LoadBalancer
+##
+serviceType: LoadBalancer
+## Control hosts connecting to "LoadBalancer" only
+serviceLoadBalancerSourceRanges:
+- 0.0.0.0/0
+
+postgresql:
+  postgresUser: todoapp
+  postgresDatabase: todoapp

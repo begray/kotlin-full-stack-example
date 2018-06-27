@@ -38,6 +38,7 @@ dependencies {
 
     compile 'org.jetbrains.exposed:exposed:0.10.3'
     compile 'com.h2database:h2:1.4.197'
+    compile 'org.postgresql:postgresql:42.2.2'
 
     compile "ch.qos.logback:logback-classic:1.2.1"
 
