@@ -1,6 +1,12 @@
-## To Do list application in Kotlin ##
+## Sample full stack ToDo application in Kotlin
 
-All the commands below use FISH shell syntax
+Backend: ktor, exposed
+Frontend: kotlin-react, kotlin-js-wrappers
+Deployment: docker, helm, kubernetes
+
+## Building and deploying
+
+All the commands below use FISH shell syntax on macOS
 
 ### Build and run docker image locally
 
@@ -23,3 +29,21 @@ All the commands below use FISH shell syntax
 `$ brew install helm`
 
 `$ helm init`
+
+### Deploy application into Kubernetes cluster
+
+Use `helm` to install.
+
+`$ cd helm-chart`
+
+* Copy PostgreSQL chart into charts
+
+`$ helm update dependencies todoapp`
+
+* Package chart into archive
+
+`$ helm package todoapp`
+
+* Install package into Kubernetes
+
+`$ helm install todoapp-0.0.2.tgz`
