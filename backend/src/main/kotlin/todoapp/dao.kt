@@ -26,6 +26,13 @@ class ToDoItem(id: EntityID<Int>): IntEntity(id) {
 // TODO global db connection for the sake of simplicity, should use connection pooling instead
 object DbSettings {
     val db by lazy {
+
+        System.out.println("Environment: ")
+        val env = System.getenv()
+        env.entries.forEach {
+            System.out.println("${it.key}: ${it.value}")
+        }
+
         // if POSTGRES related environment variables are set, then try to use PostgreSQL
         // use local H2 otherwise (for local testing)
         val dbAddress = System.getenv("TODOAPP_DB_POSTGRES")
@@ -34,13 +41,14 @@ object DbSettings {
         val db = if (null != dbAddress && null != dbPassword) {
             System.out.println("Using PostgreSQL database at $dbAddress")
 
-            Database.connect("jdbc:postgresql://localhost/todoapp?user=todoapp&password=$dbPassword&ssl=true", driver = "org.postgresql.Driver")
+            Database.connect("jdbc:postgresql://$dbAddress/todoapp?user=todoapp&password=$dbPassword", driver = "org.postgresql.Driver")
         } else {
             System.out.println("Using H2 database")
 
             Database.connect("jdbc:h2:file:./todoapp.db", driver = "org.h2.Driver")
         }
 
+        // TODO this is not a good way to initialize a database
         transaction(db) {
             create (ToDoItems)
         }

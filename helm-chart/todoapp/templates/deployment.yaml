@@ -24,7 +24,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: TODOAPP_DB_POSTRES
+            - name: TODOAPP_DB_POSTGRES
               value: {{ template "todoapp.postgresql.fullname" . }}
             - name: TODOAPP_DB_PASSWORD
               valueFrom:
