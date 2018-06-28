@@ -15,10 +15,7 @@ import io.ktor.jackson.jackson
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.response.respondText
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.route
-import io.ktor.routing.routing
+import io.ktor.routing.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun Application.main() {
@@ -43,7 +40,7 @@ fun Application.main() {
                 val items = call.let {
                     transaction(DbSettings.db) {
                         ToDoItem.all().map {
-                            ToDo(it.subject)
+                            ToDo(it.id.value, it.subject)
                         }
                     }
                 }
@@ -53,11 +50,22 @@ fun Application.main() {
             post {
                 val item = call.receive<NewToDo>()
 
-                call.run {
+                val todo = call.let {
                     transaction(DbSettings.db) {
                         ToDoItem.new {
                             subject = item.subject
                         }
+                    }
+                }
+
+                call.respond(ToDo(todo.id.value, todo.subject))
+            }
+            delete {
+                val item = call.receive<RemoveToDo>()
+
+                call.run {
+                    transaction(DbSettings.db) {
+                        ToDoItem[item.id].delete()
                     }
                 }
 

@@ -14,11 +14,11 @@ import kotlin.js.json
  * TODO does multiplatform project provide REST API client generated from backend interfaces?
  */
 
-suspend fun postToDo(subject: String): Unit =
+suspend fun postToDo(subject: String): ToDo =
         postAndParseResult(
                 "/todos",
                 stringify(json("subject" to subject)),
-                ::parseEmptyResponse
+                ::parseToDoItem
         )
 
 suspend fun getToDoList(): List<ToDo> =
@@ -26,6 +26,13 @@ suspend fun getToDoList(): List<ToDo> =
                 "/todos",
                 null,
                 ::parseToDoList
+        )
+
+suspend fun deleteToDo(id: Int): Unit =
+        deleteAndParseResult(
+                "/todos",
+                stringify(json("id" to id)),
+                ::parseEmptyResponse
         )
 
 private fun parseToDoList(json: dynamic): List<ToDo> {
@@ -37,7 +44,7 @@ private fun parseToDoList(json: dynamic): List<ToDo> {
 private fun parseEmptyResponse(json: dynamic) {}
 
 private fun parseToDoItem(json: dynamic): ToDo {
-    return ToDo(json.subject as String)
+    return ToDo(json.id as Int, json.subject as String)
 }
 
 private suspend fun <T> postAndParseResult(url: String, body: dynamic, parse: (dynamic) -> T): T =
@@ -45,6 +52,9 @@ private suspend fun <T> postAndParseResult(url: String, body: dynamic, parse: (d
 
 private suspend fun <T> getAndParseResult(url: String, body: dynamic, parse: (dynamic) -> T): T =
         requestAndParseResult("GET", url, body, parse)
+
+private suspend fun <T> deleteAndParseResult(url: String, body: dynamic, parse: (dynamic) -> T): T =
+        requestAndParseResult("DELETE", url, body, parse)
 
 private suspend fun <T> requestAndParseResult(method: String, url: String, body: dynamic, parse: (dynamic) -> T): T {
     val response = window.fetch(url, object : RequestInit {

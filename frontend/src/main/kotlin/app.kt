@@ -1,17 +1,17 @@
 package todoapp
 
 import kotlinx.coroutines.experimental.async
-import kotlinx.html.InputType
-import kotlinx.html.js.onChangeFunction
-import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
 import react.dom.*
+import kotlinext.js.*
+import kotlinx.html.*
+import kotlinx.html.js.*
 
 interface TodoProps : RProps
 
 interface TodoState : RState {
-    var items: List<String>
+    var items: List<ToDo>
     var subject: String
     var error: String?
 }
@@ -40,7 +40,7 @@ class Todo(props: TodoProps) : RComponent<TodoProps, TodoState>(props) {
             val toDoList = getToDoList()
 
             setState {
-                items = toDoList.map { it.subject }
+                items = toDoList
             }
         }
     }
@@ -71,11 +71,10 @@ class Todo(props: TodoProps) : RComponent<TodoProps, TodoState>(props) {
                             async(onCompletion = {
                                 if (it != null) {
                                     onFailed(it)
-                                } else {
-                                    onSubmitted()
                                 }
                             }) {
-                                postToDo(state.subject)
+                                val item = postToDo(state.subject)
+                                onSubmitted(item)
                             }
                         }
                     }
@@ -89,11 +88,40 @@ class Todo(props: TodoProps) : RComponent<TodoProps, TodoState>(props) {
                     }
                 }
 
-                ul {
-                    for ((index, item) in state.items.withIndex()) {
-                        li {
-                            key = index.toString()
-                            +item
+                div {
+                    for (item in state.items) {
+                        div {
+                            attrs.jsStyle = js {
+                                display = "flex"
+                            }
+
+                            div {
+                                attrs.jsStyle = js {
+                                    width = "200px"
+                                    textAlign = "center"
+                                }
+
+                                +item.subject
+                            }
+
+                            button {
+                                +"×"
+                                attrs {
+                                    onClickFunction = {
+                                        async(onCompletion = {
+                                            if (it != null) {
+                                                onFailed(it)
+                                            } else {
+                                                setState {
+                                                    items = items.filter { it.id != item.id }
+                                                }
+                                            }
+                                        }) {
+                                            deleteToDo(item.id)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -101,10 +129,10 @@ class Todo(props: TodoProps) : RComponent<TodoProps, TodoState>(props) {
         }
     }
 
-    private fun onSubmitted() {
+    private fun onSubmitted(item: ToDo) {
         setState {
             error = null
-            items += subject
+            items += item
             subject = ""
         }
     }
