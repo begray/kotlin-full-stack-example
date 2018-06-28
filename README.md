@@ -1,7 +1,11 @@
 ## Sample full stack ToDo application in Kotlin
 
+Can be easily packaged into Helm chart and ready to be deployed into Kubernetes cluster.
+
 Backend: ktor, exposed
+
 Frontend: kotlin-react, kotlin-js-wrappers
+
 Deployment: docker, helm, kubernetes
 
 ## Build and deploy using `minikube`
