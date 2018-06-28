@@ -78,6 +78,10 @@ List helm installations
 
 `$ helm list`
 
+Delete helm installation
+
+`$ helm delete <installation-name>`
+
 List kubernetes pods
 
 `$ kubectl get pods`
@@ -94,3 +98,4 @@ Get logs from the pod
 * Check if kotlin multiplatform project will allow for better code reuse between backend and frontend
 * Minify JS in production build
 * Do not used development server in production build
+* Gradle build scripts to build docker image and helm package

@@ -1,10 +1,18 @@
 group = 'todoapp'
 version = '0.0.1-SNAPSHOT'
 
+ext.kotlin_version = '1.2.41'
+ext.ktor_version = '0.9.0'
+ext.html_version = "0.6.6"
+ext.react_version = "16.4.0-pre.32-kotlin-$kotlin_version"
+ext.react_dom_version = "16.4.0-pre.32-kotlin-$kotlin_version"
+ext.react_router_dom_version = "4.2.2-pre.32-kotlin-$kotlin_version"
+ext.extensions_version = "1.0.1-pre.32-kotlin-$kotlin_version"
+ext.coroutines_version = "0.23.3"
+
+
 subprojects { p ->
     p.buildscript {
-        ext.kotlin_version = '1.2.41'
-
         repositories {
             mavenLocal()
             jcenter()
@@ -19,9 +27,6 @@ subprojects { p ->
 }
 
 subprojects {
-    ext.kotlin_version = '1.2.41'
-    ext.ktor_version = '0.9.0'
-
     repositories {
         mavenLocal()
         jcenter()
