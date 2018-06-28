@@ -18,6 +18,8 @@ interface TodoState : RState {
 
 /**
  * React component to display a list of ToDos and add new ones
+ *
+ * TODO plain html atm, needs some styling
  */
 class Todo(props: TodoProps) : RComponent<TodoProps, TodoState>(props) {
     override fun TodoState.init(props: TodoProps) {

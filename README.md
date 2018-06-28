@@ -4,7 +4,7 @@ Backend: ktor, exposed
 Frontend: kotlin-react, kotlin-js-wrappers
 Deployment: docker, helm, kubernetes
 
-## Build and deploy
+## Build and deploy using `minikube`
 
 All the commands below use FISH shell syntax on macOS
 
@@ -14,7 +14,7 @@ All the commands below use FISH shell syntax on macOS
 
 `$ docker build -t todoapp:v0.0.3 .`
 
-### (Optionally) Run inside minikube's VM
+### (Optionally) Run inside `minikube`'s VM
 
 `$ eval (minikube docker-env)`
 
@@ -22,17 +22,17 @@ All the commands below use FISH shell syntax on macOS
 
 `$ open http://(minikube ip):9090/`
 
-### Install Helm
+### Install `helm`
 
 `$ brew install helm`
 
 `$ helm init`
 
-### Deploy application into Kubernetes cluster
+### Deploy application into Kubernetes cluster (`minikube`)
 
 Use `helm` to install.
 
-* Update dependecies (copy PostgreSQL chart into charts)
+* Update dependencies (copy PostgreSQL chart into charts)
 
 `$ helm update dependencies helm-chart/todoapp`
 
@@ -52,6 +52,18 @@ Use `helm` to install.
   kubectl port-forward svc/$SERVICE_NAME 8080:9090
 ```
 
+### Check if replication is working as expected
+
+* Kill one or both pods
+
+`$ kubectl delete pod <app-pod-id>`
+
+* Check if new instance is automatically deployed
+
+`$ kubectl get pods`
+
+* Check if DB and data is still there from UI
+
 ### Useful debugging commands
 
 Get status of helm installation
@@ -69,3 +81,12 @@ List kubernetes pods
 Get logs from the pod
 
 `$ kubectl logs <pod>`
+
+### TODOs
+
+* Tests
+* LoadBalancer in front of app pods
+* Improve styling of Web UI
+* Check if kotlin multiplatform project will allow for better code reuse between backend and frontend
+* Minify JS in production build
+* Do not used development server in production build

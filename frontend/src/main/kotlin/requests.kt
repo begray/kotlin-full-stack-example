@@ -10,8 +10,8 @@ import kotlin.js.json
 /**
  * Dumb REST API client
  *
- * TODO consider using some library to do REST API communication to avoid hand written to/from JSON serialization
- * TODO does multiplatform project provides REST API client generated from backend interfaces?
+ * TODO consider using an existing library to do REST API communication to avoid hand written to/from JSON serialization
+ * TODO does multiplatform project provide REST API client generated from backend interfaces?
  */
 
 suspend fun postToDo(subject: String): Unit =
